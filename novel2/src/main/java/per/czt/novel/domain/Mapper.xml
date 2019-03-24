@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 配置命名空间 -->
+<mapper namespace="per.czt.novel.domain">
+
+	<resultMap type="per.czt.novel.domain.Novel" id="novelMap">
+		<id property="id" column="n_id" />
+		<result property="title" column="title" />
+		<result property="author" column="author" />
+		<result property="description" column="description" />
+		<result property="photo" column="photo" />
+		<result property="content" column="content" />
+		<result property="publishDate" column="n_publishDate" />
+		<!--<result column="userId" property="userId" /> -->
+		<association property="novelsort"
+			javaType="per.czt.novel.domain.Novelsort" column="novelsortId">
+			<id property="id" column="ns_id" />
+			<result property="name" column="name" />
+			<result property="publishDate" column="ns_publishDate" />
+
+		</association>
+
+	</resultMap>
+
+	<!-- 配置查询语句 -->
+	<select id="searchNovel"
+		parameterType="per.czt.novel.domain.Novel" resultMap="novelMap">
+		select novel.id as
+		n_id,title,author,description,photo,content,novelsort.id as
+		ns_id,name,novel.publishDate as n_publishDate,novelsort.publishDate as
+		ns_publishDate
+		from novel,novelsort where novel.novelsortId=
+		novelsort.id
+		<!--查询条件 -->
+		<if test="n_id!=null">
+			and novel.id=#{n_id}
+		</if>
+		<if test="title!=null">
+			and title=#{title}
+		</if>
+		<if test="author!=null">
+			and author=#{author}
+		</if>
+		<if test="description!=null">
+			and description=#{description}
+		</if>
+		<if test="photo!=null">
+			and photo=#{photo}
+		</if>
+		<if test="content!=null">
+			and content=#{content}
+		</if>
+		<if test="ns_id!=null">
+			and novelsort.id=#{ns_id}
+		</if>
+		<if test="name!=null">
+			and name=#{name}
+		</if>
+		<if test="n_publishDate!=null">
+			and n_publishDate=#{n_publishDate}
+		</if>
+		<if test="content!=null">
+			and ns_publishDate=#{ns_publishDate}
+		</if>
+
+		<!-- 是否要按顺序查询 ,默认按照id 顺序查询 -->
+
+		order by
+		<!-- 按照哪个字段的顺序 -->
+		<if test="orderBy!=null">
+			${orderBy }
+		</if>
+		<if test="orderBy==null">
+			novel.id
+		</if>
+		<!-- 以什么样的顺序 -->
+		<if test="ordered!=null">
+			${ordered }
+		</if>
+		<if test="ordered==null">
+			asc
+		</if>
+		<!-- 是否限制记录条数 -->
+		<if test="num!=null">
+			limit ${num }
+		</if>
+
+
+	</select>
+	<insert id="insertNovel"
+		parameterType="per.czt.novel.domain.Novel">
+		insert into
+		novel(title,author,novelsortId,publishDate)
+		values(#{title},#{author},#{novelsort.id},#{publishDate})
+
+	</insert>
+	<delete id="deleteNovel"
+		parameterType="per.czt.novel.domain.Novel">
+		delete from novel where 1=1
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+
+
+	</delete>
+	<update id="updateNovel"
+		parameterType="per.czt.novel.domain.Novel">
+		update novel
+		<set>
+			<if test="title!=null">
+				title=#{title},
+			</if>
+			<if test="author!=null">
+				author=#{author},
+			</if>
+			<if test="novelsort!=null">
+				novelsortId=#{novelsort.id}
+			</if>
+
+		</set>
+		where id=#{id}
+	</update>
+
+
+	<!-- 假设user和orders是一对多 -->
+	<resultMap type="per.czt.novel.domain.Novelsort"
+		id="novelsortMap">
+		<id property="id" column="ns_id" />
+		<result property="name" column="name" />
+		<result property="publishDate" column="ns_publishDate" />
+		<result property="count" column="count" />
+		<collection property="novels"
+			ofType="per.czt.novel.domain.Novel">
+			<id property="id" column="n_id" />
+			<result property="title" column="title" />
+			<result property="author" column="author" />
+			<result property="description" column="description" />
+			<result property="photo" column="photo" />
+			<result property="content" column="content" />
+			<result property="publishDate" column="n_publishDate" />
+
+
+		</collection>
+	</resultMap>
+
+
+	<!-- 配置查询语句 -->
+	<select id="searchNovelsort"
+		parameterType="per.czt.novel.domain.Novelsort"
+		resultMap="novelsortMap">
+		<!-- select novel.id as n_id,title,author,description,photo,content,novelsort.id 
+			as ns_id,name,novel.publishDate as n_publishDate,novelsort.publishDate as 
+			ns_publishDate from novel,novelsort where novel.novelsortId= novelsort.id -->
+		<!-- 左连接查询 -->
+		select count(*) as count,novelsort.id as
+		ns_id,name,novel.novelsort.publishDate as ns_publishDate
+		from novelsort
+		left join novel on novel.novelsortId= novelsort.id group by name
+
+	</select>
+	<select id="getNovelsort"
+		parameterType="per.czt.novel.domain.Novelsort"
+		resultType="per.czt.novel.domain.Novelsort">
+		select * from novelsort where 1=1
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="name!=null">
+			and name=#{name}
+		</if>
+
+
+	</select>
+
+
+
+	<insert id="insertNovelsort"
+		parameterType="per.czt.novel.domain.Novelsort">
+		insert into
+		novelsort(name,publishDate)
+		values(#{name},#{publishDate})
+
+	</insert>
+	<delete id="deleteNovelsort"
+		parameterType="per.czt.novel.domain.Novelsort">
+		delete from novelsort where 1=1
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="name!=null">
+			and name=#{name}
+		</if>
+
+	</delete>
+	<update id="updateNovelsort"
+		parameterType="per.czt.novel.domain.Novelsort">
+		update novelsort
+		<set>
+			<if test="name!=null">
+				name=#{name}
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+
+
+
+
+
+
+
+
+
+</mapper>

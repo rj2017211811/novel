@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 配置命名空间 -->
+<mapper namespace="per.czt.novel.domain">
+	<!-- 配置查询语句 -->
+	<select id="search" parameterType="Test"
+		resultType="per.czt.novel.domain.Test">
+		select * from test where 1=1
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="name!=null">
+			and name=#{name}
+		</if>
+		
+
+	</select>
+	
+
+</mapper>

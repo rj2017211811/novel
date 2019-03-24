@@ -1,0 +1,75 @@
+.image1
+{
+	height:180px;
+	width:110px;
+	padding-top:10px;
+	
+}
+.author
+{
+	
+	color:#B3B3B3;
+	line-height:30px;
+}
+.bookName
+{
+	font-size:16px;
+	color:#6F78A7;
+	font-weight: bold;
+	line-height:30px;
+}
+.introduction
+{
+	text-indent: 2em;
+	font-size:12px;
+	
+}
+#content
+{
+	background-color:#FEF9EF;
+	padding-top:5px;
+	padding-bottom:5px;
+	
+	
+}
+.title1
+{
+	background-color:#E1ECED;
+	line-height:30px;
+	padding-left:10px;
+	font-weight: bold;
+	
+}
+
+.font1
+{
+	background-color:#E1ECED;
+}
+
+.font2
+{
+	background-color:#FEF9EF;
+}
+
+
+.font3
+{
+	background-color:#F6F8FE;
+}
+.font4
+{
+	color:#B3B3B3;
+	font-size:12px;
+}
+.font5
+{
+	background-color:#A6D3E8;
+}
+.font6
+{
+	background-color:#E1ECED;
+}
+#tip a
+{
+	font-size: 10px;
+}

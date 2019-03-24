@@ -1,0 +1,32 @@
+#left {
+	background-color: #222222;
+	
+	margin:0 auto;padding:0;
+}
+
+li {
+	line-height: 30px;
+	border-bottom: 1px solid black;
+	padding: 10px;
+}
+
+#navBar li a {
+	text-decoration: none;
+	color: white;
+}
+/* 未被访问的链接 */
+#navBar li  a:link {
+	color: white;
+} 
+ /* 已被访问的链接 */
+#navBar li  a:visited {
+	color: white;
+}
+/* 鼠标指针移动到链接上 */
+#navBar li  a:hover {
+	color: #FF00FF;
+} 
+/* 正在被点击的链接 */
+#navBar li  a:active {
+	color: #0000FF;
+} 
