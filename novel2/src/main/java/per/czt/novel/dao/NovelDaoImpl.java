@@ -45,4 +45,16 @@ public class NovelDaoImpl extends SqlSessionDaoSupport implements NovelDao {
 		
 	}
 
+
+	@Override
+	public int getPageCount(Map map,  int pageSize) {
+		int rowCount=this.getSqlSession().selectList("per.czt.novel.domain.searchNovel", map).size();
+		if(rowCount%pageSize==0)
+		{
+			return rowCount/pageSize;
+		}
+		
+		return (rowCount/pageSize)+1;
+	}
+
 }

@@ -13,5 +13,6 @@ public interface NovelDao {
 	public int addNovel(Novel n);
 	public int deleteNovel(Novel n);
 	public int updateNovel(Novel n);
+	public int getPageCount(Map map,int pageSize);
 	
 }

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 配置命名空间 -->
+<mapper namespace="per.czt.novel.domain">
+
+	<!-- message和user是一对一 -->
+	<resultMap type="per.czt.novel.domain.Message"
+		id="messageMap">
+		<id property="id" column="m_id" />
+
+		<result property="content" column="content" />
+		<result property="sendDate" column="sendDate" />
+		<result property="isGet" column="isGet" />
+		<result property="getterId" column="getterId" />
+		<association property="sender"
+			javaType="per.czt.novel.domain.User" column="senderId">
+			<id property="id" column="u_id" />
+			<result property="username" column="username" />
+			<result property="password" column="password" />
+			<result property="email" column="email" />
+			<result property="photo" column="photo" />
+			<result property="sex" column="sex" />
+			<result property="nickname" column="nickname" />
+			<result property="isOnline" column="isOnline" />
+		</association>
+		<!--<result column="userId" property="userId" /> -->
+
+
+	</resultMap>
+	<select id="searchMessage"
+		parameterType="per.czt.novel.domain.Message" resultMap="messageMap">
+		select m.id as
+		m_id,u.id as
+		u_id,username,password,email,photo,sex,nickname,isOnline,content,getterId,sendDate
+		from user as u,message as
+		m where u.id=m.senderId
+			<if test="senderId!=null">
+				<if test="getterId!=null">
+				and ((senderId=#{senderId} and getterId=#{getterId}) or (senderId=#{getterId} and getterId=#{senderId}))
+				
+				
+				</if>
+			
+		</if>
+		order by sendDate asc
+	
+	</select>
+	<insert id="insertMessage" parameterType="per.czt.novel.domain.Message" >
+		insert into Message(senderId,getterId,content,sendDate) values(#{sender.id},#{getterId},#{content},#{sendDate})
+	</insert>
+	
+	
+	<resultMap type="per.czt.novel.domain.User" id="userMap">
+		<id property="id" column="u_id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="email" column="email" />
+		<result property="photo" column="photo" />
+		<result property="sex" column="sex" />
+		<result property="nickname" column="nickname" />
+		<result property="isOnline" column="isOnline" />
+
+		<collection property="messages"
+			ofType="per.czt.novel.domain.Message" autoMapping="true" resultMap="messageMap">
+			<id property="id" column="m_id" />
+			
+			<result property="senderId" column="senderId" />
+			<result property="getterId" column="getterId" />
+			<result property="content" column="content" />
+			<result property="sendDate" column="sendDate" />
+			<result property="isGet" column="isGet" />
+		</collection>
+	</resultMap>
+	<select id="searchUser"
+		parameterType="per.czt.novel.domain.User" resultMap="userMap">
+		select m.id as
+		m_id,u.id as
+		u_id,username,password,email,photo,sex,nickname,isOnline,content,senderId,getterId 
+		from user as u,message as
+		m where u.id=m.senderId
+	
+		<if test="u_id!=null">
+			and id=#{u_id}
+		</if>
+		<if test="username!=null">
+			and username=#{username}
+		</if>
+		<if test="password!=null">
+			and password=#{password}
+		</if>
+		<if test="email!=null">
+			and email=#{email}
+		</if>
+		<if test="photo!=null">
+			and photo=#{photo}
+		</if>
+		<if test="sex!=null">
+			and sex=#{sex}
+		</if>
+		<if test="nickname!=null">
+			and nickname=#{nickname}
+		</if>
+		<if test="isOnline!=null">
+			and isOnline=#{isOnline}
+		</if>
+		<if test="num!=null">
+			limit #{num}
+		</if>
+	</select>
+	<select id="searchUser2"
+		parameterType="per.czt.novel.domain.User" resultMap="userMap">
+		select u.id as
+		u_id,username,password,email,photo,sex,nickname,isOnline
+		from user as u where 1=1
+		<if test="u_id!=null">
+			and id=#{u_id}
+		</if>
+		<if test="username!=null">
+			and username=#{username}
+		</if>
+		<if test="password!=null">
+			and password=#{password}
+		</if>
+		<if test="email!=null">
+			and email=#{email}
+		</if>
+		<if test="photo!=null">
+			and photo=#{photo}
+		</if>
+		<if test="sex!=null">
+			and sex=#{sex}
+		</if>
+		<if test="nickname!=null">
+			and nickname=#{nickname}
+		</if>
+		<if test="isOnline!=null">
+			and isOnline=#{isOnline}
+		</if>
+		<if test="num!=null">
+			limit #{num}
+		</if>
+	</select>
+  <update id="updateUser"
+		parameterType="per.czt.novel.domain.User">
+		update user as user set
+		<if test="password!=null">
+			password=#{password},
+		</if>
+		<if test="email!=null">
+			email=#{email},
+		</if>
+		<if test="photo!=null">
+			photo=#{photo},
+		</if>
+		<if test="sex!=null">
+			sex=#{sex},
+		</if>
+		<if test="nickname!=null">
+			nickname=#{nickname},
+		</if>
+		<if test="isOnline!=null">
+			isOnline=#{isOnline}
+		</if>
+		where id=#{id}
+
+
+
+	</update>
+
+	<!-- <resultMap type="per.czt.novel.domain.Message" id="messageMap"> <id 
+		property="id" column="m_id1" /> <result property="content" column="content1" 
+		/> <result property="sendDate" column="sendDate1" /> <result property="isGet" 
+		column="isGet1" /> <result column="userId" property="userId" /> <association 
+		property="sender" javaType="per.czt.novel.domain.User" column="senderId" 
+		select="getSender"> </association> <association property="getter" javaType="per.czt.novel.domain.User" 
+		column="getterId" select="getGetter"> </association> </resultMap> <select 
+		id="getSender" parameterType="Integer" resultMap="messageMap"> select senderId 
+		from user,message where user.id=#{senderId} </select> <select id="getGetter" 
+		parameterType="Integer" resultMap="messageMap"> select getterId from user,message 
+		where user.id=#{getterId} </select> <select id="searchMessage" resultMap="messageMap" 
+		parameterMap="messageMap"> select user.id as u_id,username,password,email,photo,sex,nickname,isOnline 
+		from user,message where senderId=user.id; </select> -->
+
+</mapper>

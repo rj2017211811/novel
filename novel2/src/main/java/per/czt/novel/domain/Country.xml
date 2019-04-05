@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 配置命名空间 -->
+<mapper namespace="per.czt.novel.domain">
+		<resultMap type="per.czt.novel.domain.Country"
+		id="countryMap">
+		<id property="id" column="c1_id" />
+		<result property="name" column="c1_name" />
+
+		<collection property="provinces"
+			ofType="per.czt.novel.domain.Province">
+			<id property="id" column="p_id" />
+			<result property="name" column="p_name" />
+			<collection property="cities"
+				ofType="per.czt.novel.domain.City">
+				<id property="id" column="c2_id" />
+				<result property="name" column="c2_name" />
+			</collection>
+
+		</collection>
+	</resultMap>
+	<select id="searchCountry"
+		parameterType="per.czt.novel.domain.Country" resultMap="countryMap">
+		select country.id as c1_id,province.id as p_id,country.name as
+		c1_name,province.name as p_name,city.id as c2_id,city.name as c2_name
+		from country,province,city where country.id=province.countryId
+		and
+		province.id=city.provinceId
+		<if test="c1_id!=null">
+			and country.id=#{c1_id}
+		</if>
+		<if test="c1_name!=null">
+			and country.name=#{c1_name}
+		</if>
+
+		<if test="p_id!=null">
+			and province.id=#{p_id}
+		</if>
+		<if test="p_name!=null">
+			and province.name=#{p_name}
+		</if>
+		<if test="c2_id!=null">
+			and city.id=#{c2_id}
+		</if>
+		<if test="c2_name!=null">
+			and city.name=#{c2_name}
+		</if>
+	</select>
+	
+
+
+</mapper>

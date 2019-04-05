@@ -69,9 +69,7 @@
 									<div class="modal-title">
 										<h1 class="text-center">注册</h1>
 									</div>
-									<form class="form-group"
-										action="${pageContext.request.contextPath }/register.do?flag=register"
-										method="post">
+								
 										<div class="form-group">
 											<label for="">用户名</label> <input class="form-control"
 												type="text" placeholder="6-15位字母或数字" name="username">
@@ -94,7 +92,7 @@
 										</div>
 										<a href="" data-toggle="modal" data-dismiss="modal"
 											data-target="#login">已有账号？点我登录</a>
-									</form>
+									
 								</div>
 							</div>
 						</div> <!-- 登录窗口 -->
@@ -110,26 +108,24 @@
 										<h1 class="text-center">登录</h1>
 									</div>
 									<div class="modal-body">
-										<form class="form-group"
-											action="${pageContext.request.contextPath }/login.do?flag=login"
-											method="post">
+										
 											<div class="form-group">
 												<label for="">用户名</label> <input class="form-control"
-													type="text" placeholder="" name="username">
+													type="text" placeholder="" name="username" id="username">
 											</div>
 											<div class="form-group">
 												<label for="">密码</label> <input class="form-control"
-													type="password" placeholder="" name="password">
+													type="password" placeholder="" name="password" id="password">
 											</div>
 
 
 											<div class="text-right">
-												<button class="btn btn-primary" type="submit">登录</button>
+												<button class="btn btn-primary" onclick="checkUser('#username','#password')">登录</button>
 												<button class="btn btn-danger" data-dismiss="modal">取消</button>
 												<a href="" data-toggle="modal" data-dismiss="modal"
 													data-target="#register">还没有账号？点我注册</a>
 											</div>
-										</form>
+									
 									</div>
 								</div>
 							</div>

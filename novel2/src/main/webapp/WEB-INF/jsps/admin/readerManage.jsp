@@ -65,7 +65,7 @@
 									<td>1124242</td>
 									<td>131241@qq.com</td>
 
-									<td><a href="#">封禁该读者ID</a></td>
+									<td><a href="#" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true">封禁该作者ID</span></a></td>
 
 								</tr>
 

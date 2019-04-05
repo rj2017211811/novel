@@ -79,4 +79,59 @@
 	<bean id="novelService" class="per.czt.novel.service.NovelServiceImpl">
 		<property name="novelDao" ref="novelDao"></property>
 	</bean>
+	
+	<!-- 为dao配置sqlSessionFactory -->
+	<bean id="countryDao" class="per.czt.novel.dao.CountryDaoImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<!-- 为service配置dao -->
+	
+	<bean id="countryService" class="per.czt.novel.service.CountryServiceImpl">
+		<property name="countryDao" ref="countryDao"></property>
+	</bean>
+	
+	<!-- 为dao配置sqlSessionFactory -->
+	<bean id="provinceDao" class="per.czt.novel.dao.ProvinceDaoImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<!-- 为service配置dao -->
+	
+	<bean id="provinceService" class="per.czt.novel.service.ProvinceServiceImpl">
+		<property name="provinceDao" ref="provinceDao"></property>
+	</bean>
+	
+	
+	<!-- 为dao配置sqlSessionFactory -->
+	<bean id="cityDao" class="per.czt.novel.dao.CityDaoImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<!-- 为service配置dao -->
+	
+	<bean id="cityService" class="per.czt.novel.service.CityServiceImpl">
+		<property name="cityDao" ref="cityDao"></property>
+	</bean>
+
+
+	<!-- 为dao配置sqlSessionFactory -->
+	<bean id="userDao" class="per.czt.novel.dao.UserDaoImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<!-- 为service配置dao -->
+	
+	<bean id="userService" class="per.czt.novel.service.UserServiceImpl">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+	
+	<!-- 为dao配置sqlSessionFactory -->
+	<bean id="messageDao" class="per.czt.novel.dao.MessageDaoImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<!-- 为service配置dao -->
+	
+	<bean id="messageService" class="per.czt.novel.service.MessageServiceImpl">
+		<property name="messageDao" ref="messageDao"></property>
+	</bean>
+		
+	
+	
 </beans>

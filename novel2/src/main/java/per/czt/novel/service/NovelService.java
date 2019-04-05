@@ -11,4 +11,6 @@ public interface NovelService {
 	public int deleteNovel(Novel n);
 	public int updateNovel(Novel n);
 	public Novel setectOneNovel(Map map);
+	
+	public int getPageCount(Map map,  int pageSize);
 }

@@ -16,6 +16,9 @@
 	href="${pageContext.request.contextPath }/static/css/foot.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/static/css/index.css">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/static/js/myAjax.js"
+	charset="utf-8"></script>
 </head>
 <body>
 

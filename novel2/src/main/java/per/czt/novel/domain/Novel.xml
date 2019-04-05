@@ -19,9 +19,7 @@
 			<id property="id" column="ns_id" />
 			<result property="name" column="name" />
 			<result property="publishDate" column="ns_publishDate" />
-
 		</association>
-
 	</resultMap>
 
 	<!-- 配置查询语句 -->
@@ -87,6 +85,16 @@
 			limit ${num }
 		</if>
 
+		<!-- 是否限制记录条数进行分页 -->
+		<if test="first!=null">
+			<if test="end!=null">
+				limit #{first},#{end}
+
+			</if>
+
+		</if>
+
+
 
 	</select>
 	<insert id="insertNovel"
@@ -122,9 +130,7 @@
 		</set>
 		where id=#{id}
 	</update>
-
-
-	<!-- 假设user和orders是一对多 -->
+	<!-- 假设novelsort和novel是一对多 -->
 	<resultMap type="per.czt.novel.domain.Novelsort"
 		id="novelsortMap">
 		<id property="id" column="ns_id" />
@@ -144,8 +150,6 @@
 
 		</collection>
 	</resultMap>
-
-
 	<!-- 配置查询语句 -->
 	<select id="searchNovelsort"
 		parameterType="per.czt.novel.domain.Novelsort"
@@ -170,12 +174,7 @@
 		<if test="name!=null">
 			and name=#{name}
 		</if>
-
-
 	</select>
-
-
-
 	<insert id="insertNovelsort"
 		parameterType="per.czt.novel.domain.Novelsort">
 		insert into
@@ -204,7 +203,7 @@
 		</set>
 		where id=#{id}
 	</update>
-
+	
 
 
 

@@ -1,17 +1,21 @@
 package per.czt.novel.web.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import per.czt.novel.domain.Novel;
 import per.czt.novel.domain.Novelsort;
@@ -52,21 +56,11 @@ public class AdminController {
 
 		}
 
-		return "admin/novelsortAdd";
+		return "redirect:/admin/tomanageNovel";
 
 	}
 
-	@RequestMapping("/toaddNovel")
-	public String toaddNovel(Model model) {
-		Map<String, Object> map = new HashMap();
 
-		List<Novelsort> novelsortList = novelsortService.searchNovelsort(map);
-
-		model.addAttribute("novelsortList", novelsortList);
-
-		return "admin/novelAdd";
-
-	}
 
 	@RequestMapping(value = "/addNovel", method = RequestMethod.POST)
 	public String addNovel(HttpServletRequest request, Model model) {
@@ -101,106 +95,124 @@ public class AdminController {
 
 		}
 
-		return "admin/novelAdd";
+		return "redirect:/admin/tomanageNovel";
 
 	}
 
-	@RequestMapping("/delNovel")
-	public String delNovel(Integer id,Model model) {
+	@RequestMapping(value= {"/delNovel"},method=RequestMethod.GET,produces="text/html;charset=utf-8")
+	@ResponseBody
+	public void delNovel(Integer id,HttpServletResponse response) throws IOException {
+		PrintWriter pw=response.getWriter();
+		
+	
+		
 		Novel novel = new Novel();
+		
 		novel.setId(id);
 
 		int flag = novelService.deleteNovel(novel);
 		if (flag == 1) {
-			System.out.println("删除成功!");
-			model.addAttribute("tipMessage", "删除成功!");
+		
+			
+			pw.println("true");
 
 		} else {
-			System.out.println("删除失败!");
-			model.addAttribute("tipMessage", "删除失败，该书籍不存在!");
+		
+			pw.println("false");
 		}
 
-		return "redirect:/admin/tomanageNovel";
+		
 	}
 
 	@RequestMapping("/toupdateNovel")
-	public String toupdateNovel(Model model,Integer id,HttpServletRequest request) {
-		
-		
+	public String toupdateNovel(Model model, Integer id, HttpServletRequest request) {
 
 		List<Novelsort> novelsortList = novelsortService.searchNovelsort(null);
 
 		model.addAttribute("novelsortList", novelsortList);
-		
+
 		Map<String, Object> map = new HashMap();
-		map.put("n_id",id);
-		Novel novel=new Novel();
-		novel=novelService.setectOneNovel(map);
+		map.put("n_id", id);
+		Novel novel = new Novel();
+		novel = novelService.setectOneNovel(map);
 		model.addAttribute("novel", novel);
 		return "admin/novelUpdate";
 	}
-	
-	@RequestMapping(value= {"/updateNovel"},method=RequestMethod.POST )
-	public String updateNovel(Model model,HttpServletRequest request) {
-		Novel novel=new Novel();
-		Integer id=Integer.parseInt(request.getParameter("id"));
-		String title=request.getParameter("title");
-		String author=request.getParameter("author");
-		String strNovelsortId=request.getParameter("novelsort");
-		
-		Integer novelsortId=Integer.parseInt(strNovelsortId);
-		System.out.println("novelsort:"+novelsortId);
-		System.out.println("title:"+title);
-		System.out.println("author:"+author);
+
+	@RequestMapping(value = { "/updateNovel" }, method = RequestMethod.POST)
+	public String updateNovel(Model model, HttpServletRequest request) {
+		Novel novel = new Novel();
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		String title = request.getParameter("title");
+		String author = request.getParameter("author");
+		String strNovelsortId = request.getParameter("novelsort");
+
+		Integer novelsortId = Integer.parseInt(strNovelsortId);
+		System.out.println("novelsort:" + novelsortId);
+		System.out.println("title:" + title);
+		System.out.println("author:" + author);
 		novel.setId(id);
 		novel.setAuthor(author);
 		novel.setTitle(title);
-		Map<String,Object> map=new HashMap();
+		Map<String, Object> map = new HashMap();
 		map.put("id", novelsortId);
-	
-		Novelsort novelsort=new Novelsort();
-		novelsort=novelsortService.getNovelsort(map);
+
+		Novelsort novelsort = new Novelsort();
+		novelsort = novelsortService.getNovelsort(map);
 		novel.setNovelsort(novelsort);
-		//System.out.println("novelsort:"+novelsort.getName());
-		System.out.println("novelsort2:"+novelsort.getId());
-		
-		int flag=0;
-		try
-		{
-			flag=novelService.updateNovel(novel);
-			if(flag==1)
-			{
+		// System.out.println("novelsort:"+novelsort.getName());
+		System.out.println("novelsort2:" + novelsort.getId());
+		int flag = 0;
+		try {
+			flag = novelService.updateNovel(novel);
+			if (flag == 1) {
 				System.out.println("更新成功");
-				model.addAttribute("tipMessage","修改成功");
+				model.addAttribute("tipMessage", "修改成功");
 			}
-			
 		}
-		
-		catch(Exception e)
-		{
+		catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("tipMessage","修改失败");
+			model.addAttribute("tipMessage", "修改失败");
 		}
-		
+
 		return "redirect:/admin/tomanageNovel";
 	}
 
 	@RequestMapping("/tomanageNovel")
-	public String tomanageNovel(Model model,HttpServletRequest request) {
-		String tipMessage=request.getParameter("tipMessage");
-		if(tipMessage!=null)
-		{
-			model.addAttribute("tipMessage",tipMessage);
+	public String tomanageNovel(Model model, HttpServletRequest request) {
+		String tipMessage = request.getParameter("tipMessage");
+		if (tipMessage != null) {
+			model.addAttribute("tipMessage", tipMessage);
 		}
 		
+		List<Novelsort> novelsortList = novelsortService.searchNovelsort(null);
+
+
 		Map<String, Object> map = new HashMap();
 		map.put("orderBy", "ns_id");
+		int pageNow = 1;
+		int pageSize = 5;
+		String strPageNow=request.getParameter("pageNow");
+		if(strPageNow!=null)
+		{
+			pageNow=Integer.parseInt(strPageNow);
+		}
+		int pageCount = novelService.getPageCount(map, pageSize);
+
+		map.put("first", (pageNow - 1) * pageSize);
+
+		// map.put("orderBy", "title");
+		map.put("end", pageNow * pageSize);
 
 		List<Novel> allNovelList = novelService.searchNovel(map);
 
-	//	System.out.println("allNovelList.size():" + allNovelList.size());
+		// System.out.println("allNovelList.size():" + allNovelList.size());
 		model.addAttribute("allNovelList", allNovelList);
-		model.addAttribute("type", "全部小说");
+		model.addAttribute("pageNow", pageNow);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("pageCount", pageCount);
+
+		model.addAttribute("novelsortList", novelsortList);
 
 		return "admin/novelManage";
 	}
@@ -211,7 +223,7 @@ public class AdminController {
 
 		List<Novelsort> allNovelsortList = novelsortService.searchNovelsort(map);
 
-		System.out.println("allNovelsortList.size():" + allNovelsortList.size());
+	//	System.out.println("allNovelsortList.size():" + allNovelsortList.size());
 		model.addAttribute("allNovelsortList", allNovelsortList);
 		model.addAttribute("type", "全部小说");
 

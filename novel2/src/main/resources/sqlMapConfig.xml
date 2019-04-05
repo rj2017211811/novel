@@ -4,11 +4,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	
-	<typeAliases>
+ <!--  <typeAliases>
 		<typeAlias type="per.czt.novel.domain.Test" alias="Test"/>
-	</typeAliases>
+	</typeAliases>-->
 	<mappers >
-	    <!--<mapper resource="per/czt/novel/domain/Test.xml"/>  -->
-	    <mapper resource="per/czt/novel/domain/Mapper.xml"/>
+	  <!--   <mapper resource="per/czt/novel/domain/Test.xml"/>  -->
+	    <mapper resource="per/czt/novel/domain/User.xml"/>
+	    <mapper resource="per/czt/novel/domain/Novel.xml"/>
+	    
+	     <mapper resource="per/czt/novel/domain/Country.xml"/>
 	</mappers>
 </configuration>

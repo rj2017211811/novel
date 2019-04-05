@@ -68,7 +68,7 @@
 										<td>
 											<table class="table">
 												<tr>
-													<td><a href="#">修改信息</a></td>
+													<td><a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-pencil" aria-hidden="true">修改信息</span></a></td>
 													
 												</tr>
 

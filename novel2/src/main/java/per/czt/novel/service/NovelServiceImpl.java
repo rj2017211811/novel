@@ -61,5 +61,12 @@ public class NovelServiceImpl implements NovelService {
 	}
 
 
+	@Override
+	public int getPageCount(Map map, int pageSize) {
+		// TODO Auto-generated method stub
+		return novelDao.getPageCount(map, pageSize);
+	}
+
+
 	
 }

@@ -13,16 +13,15 @@
 			<ul class=" nav-stacked list-unstyled">
 				<li><a href="${pageContext.request.contextPath }/home.action">返回首页</a></li>
 
-				<li><a
-					href="${pageContext.request.contextPath }/admin/toaddNovel.action">添加小说</a></li>
+				
 
 
 				<li><a href="${pageContext.request.contextPath }/admin/tomanageWriter.action">作者管理</a></li>
 				<li><a href="${pageContext.request.contextPath }/admin/tomanageReader.action">读者管理</a></li>
 				<li><a href="${pageContext.request.contextPath }/admin/tomanageNovel.action">小说管理</a></li>
 				<li><a href="${pageContext.request.contextPath }/admin/tomanageNovelsort.action">分类管理</a></li>
-				<li><a
-					href="${pageContext.request.contextPath }/admin/toaddNovelsort.action">添加分类</a></li>
+				<li><a href="#">评论管理</a></li>
+				
 
 
 			</ul>

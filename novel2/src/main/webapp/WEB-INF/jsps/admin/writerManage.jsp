@@ -61,7 +61,7 @@
 									<td>1124242</td>
 									<td>131241@qq.com</td>
 
-									<td><a href="#">封禁该作者ID</a> <a href="#">标为星际作家</a></td>
+									<td><a href="#" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true">封禁该作者ID</span></a> <a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-pencil" aria-hidden="true">标为星际作家</span></a></td>
 
 								</tr>
 
